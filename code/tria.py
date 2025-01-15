@@ -4,13 +4,9 @@ import hmac
 import hashlib
 import base64
 
-# Regenerate your API token and secret key in the SwitchBot app and replace these placeholders.
-<<<<<<< HEAD
+# Replace with your API token and secret key from the SwitchBot app
 API_TOKEN = 'f09df5b1cf220104c6e601bcb932c69ab1cf72f51dd9153c4ddc1dbb33fc567192b907a570c7027e95f59f1c3b8378f1'
 SECRET_KEY = '31f4bfcfb7c1cd834f5a40f82b1cf29c'
-=======
-
->>>>>>> 57f3b6f3b9f25fa06f87f3d84c51d7b47e797945
 
 # Generate the authentication headers for SwitchBot API
 def generate_headers():
@@ -43,14 +39,30 @@ def get_device_status(device_id):
     response = requests.get(url, headers=headers)
     return response.json()
 
+# Monitor and log the device data periodically
+def monitor_device(device_id, interval=60):
+    print(f"Starting monitoring for device ID: {device_id}")
+    while True:
+        status = get_device_status(device_id)
+        if status['statusCode'] == 100:
+            body = status['body']
+            temperature = body.get('temperature')
+            humidity = body.get('humidity')
+            battery = body.get('battery')
+            print(f"Temperature: {temperature}°C, Humidity: {humidity}%, Battery: {battery}%")
+        else:
+            print("Failed to fetch status:", status)
+
+        time.sleep(interval)  # Wait for the specified interval
+
 # Main execution
 if __name__ == '__main__':
-    # Get the list of devices
+    # Fetch the device list to identify the device IDs
     devices = get_device_list()
     print('Device List:', devices)
 
-    # Example: Fetch status for a specific device
-    # Replace 'your_device_id' with the actual device ID from the device list
-    device_id = 'D5303835164E'  # Replace with your Outdoor Meter ID
-    status = get_device_status(device_id)
-    print('Device Status:', status)
+    # Replace 'D83038356E4E' with the device ID you want to monitor (e.g., Outdoor Meter)
+    device_id = 'D5303835164E'  # Example device ID for the Outdoor Meter
+
+    # Start monitoring the specified device
+    monitor_device(device_id, interval=60)  # Fetch and log data every 60 seconds
