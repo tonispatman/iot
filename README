@@ -1,0 +1,2 @@
+python3 .\code\temp_sample_to_iot.py --endpoint a1nzfuf7k42zd6-ats.iot.us-east-1.amazonaws.com --ca_file root-CA.crt --cert enas.cert.pem --key enas.private.key 
+--client_id basicPubSub --topic sdk/test/python --count 0

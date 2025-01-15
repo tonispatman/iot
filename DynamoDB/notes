@@ -1,0 +1,10 @@
+aws dynamodb create-table \
+    --table-name IoTDeviceData \
+    --attribute-definitions \
+        AttributeName=device_id,AttributeType=S \
+        AttributeName=received_timestamp,AttributeType=S \
+    --key-schema \
+        AttributeName=device_id,KeyType=HASH \
+        AttributeName=received_timestamp,KeyType=RANGE \
+    --provisioned-throughput \
+        ReadCapacityUnits=5,WriteCapacityUnits=5
